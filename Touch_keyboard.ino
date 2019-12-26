@@ -48,13 +48,8 @@ void Right_hand(void *pvParameters){
 	BaseType_t xHigherPriorityTaskWoken;
 	xHigherPriorityTaskWoken=pdFALSE;
 
-	Serial.println("Right setup OK");
-
 	while(1){
 		eg_bit=xEventGroupWaitBits(eg_handle,START_R,pdTRUE,pdFALSE,portMAX_DELAY);
-		Serial.print("Right start:");
-		std::cout << std::bitset<4>(eg_bit) << std::endl;
-		//Serial.println(eg_bit);
 
 		for(i=0;i<RSIZE;i++){
 			digitalWrite(PULSE_R, HIGH);
@@ -68,10 +63,6 @@ void Right_hand(void *pvParameters){
 		}
 
 		eg_bit=xEventGroupSetBits(eg_handle,END_R);
-		//eg_bit=xEventGroupSetBitsFromISR(eg_handle,END_R,&xHigherPriorityTaskWoken);
-		Serial.print("Right end:");
-		std::cout << std::bitset<4>(eg_bit) << std::endl;
-		delay(1);
 	}
 }
 
@@ -84,12 +75,8 @@ void Left_hand(void *pvParameters){
 	BaseType_t xHigherPriorityTaskWoken;
 	xHigherPriorityTaskWoken=pdFALSE;
 	
-	Serial.println("Left setup OK");
-
 	while(1){
 		eg_bit=xEventGroupWaitBits(eg_handle,START_L,pdTRUE,pdTRUE,portMAX_DELAY);
-		Serial.print("Left start:");
-		std::cout << std::bitset<4>(eg_bit) << std::endl;
 		
 		for(i=0;i<LSIZE;i++){
 			digitalWrite(PULSE_L, HIGH);
@@ -103,10 +90,6 @@ void Left_hand(void *pvParameters){
 		}
 	
 		eg_bit=xEventGroupSetBits(eg_handle,END_L);
-		//eg_bit=xEventGroupSetBitsFromISR(eg_handle,END_L,&xHigherPriorityTaskWoken);
-		Serial.print("Left end:");
-		std::cout << std::bitset<4>(eg_bit) << std::endl;
-		delay(1);
 	}
 }
 
@@ -160,12 +143,12 @@ void loop(){
 
 		out=-1;
 
-		Serial.println("sync start");
 		//1100 -> 0011
-		xEventGroupSync(eg_handle,START,ALL_SYNC,portMAX_DELAY);
-		Serial.println("sync end");
-
-		//Serial.printf("%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4]);
+		eg_bit=xEventGroupSync(eg_handle,START,ALL_SYNC,portMAX_DELAY);
+		
+		//Serial.printf("Left :%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4]);
+		//Serial.printf("Right:%ld,%ld,%ld,%ld,%ld\n",Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
+		Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
 /*	
 		for(i=0;i<LSIZE;i++){
 			if(Right_times[i]>threshold) out=Right_keymap[i];
