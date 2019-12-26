@@ -7,6 +7,7 @@
 
 #define RSIZE 5
 #define LSIZE 5
+#define DICTSIZE 50
 #define LED_BUILTIN 2
 
 #define END_R (1<<0)
@@ -128,8 +129,8 @@ void loop(){
 	char out=-1;
 	EventBits_t eg_bit;
 	unsigned long int prev=0;
-	char Right_keymap[RSIZE]={'j','k','l',';','h'};
-	char Left_keymap[LSIZE]={'a','s','d','f','g'};
+	int keymap[DICTSIZE]={};
+	char dictionary[DICTSIZE]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 
 	digitalWrite(LED_BUILTIN, HIGH);
 	delay(100);
@@ -149,7 +150,6 @@ void loop(){
 		//Serial.printf("Right:%ld,%ld,%ld,%ld,%ld\n",Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
 		Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
 
-/*	
 		for(i=0;i<LSIZE;i++){
 			if(Right_times[i]>threshold) out=Right_keymap[i];
 			if(Left_times[i]>threshold) out=Left_keymap[i];
@@ -160,7 +160,6 @@ void loop(){
 			prev=millis();
 			buf=out;
 		}
-*/
 	}
 }
 
