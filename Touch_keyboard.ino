@@ -119,7 +119,6 @@ void setup() {
 	xTaskCreatePinnedToCore(Right_hand, "Right_hand", 8192, NULL, 1, NULL, 1);
 	xTaskCreatePinnedToCore(Left_hand, "Left_hand", 8192, NULL, 1, NULL, 1);
 	delay(100);
-	
 }
 
 
