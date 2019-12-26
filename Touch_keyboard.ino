@@ -149,6 +149,7 @@ void loop(){
 		//Serial.printf("Left :%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4]);
 		//Serial.printf("Right:%ld,%ld,%ld,%ld,%ld\n",Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
 		Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
+
 /*	
 		for(i=0;i<LSIZE;i++){
 			if(Right_times[i]>threshold) out=Right_keymap[i];
