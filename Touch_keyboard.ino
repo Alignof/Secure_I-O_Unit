@@ -34,8 +34,10 @@ const int sensor8=14;
 const int sensor9=27;
 const int sensor10=26;
 
-const int threshold=100;
+const int threshold=50;
 
+bool Left_flags[LSIZE]={0};
+bool Right_flags[RSIZE]={0};
 long int Right_times[RSIZE]={0};
 long int Left_times[LSIZE]={0};
 
@@ -44,7 +46,7 @@ void Right_hand(void *pvParameters){
 	long int t=0;
 	long int start;
 	const int Right_sensors[RSIZE]={sensor1,sensor2,sensor3,sensor4,sensor5};
-	
+
 	EventBits_t eg_bit;
 	BaseType_t xHigherPriorityTaskWoken;
 	xHigherPriorityTaskWoken=pdFALSE;
@@ -57,7 +59,8 @@ void Right_hand(void *pvParameters){
 
 			start=micros();
 			while (digitalRead(Right_sensors[i])!=HIGH);
-			Right_times[i]=micros()-start;
+			if(threshold<micros()-start) Right_flags[i]=true;
+			//Right_times[i]=micros()-start;
 
 			digitalWrite(PULSE_R, LOW);  
 			delay(1);
@@ -75,21 +78,22 @@ void Left_hand(void *pvParameters){
 	EventBits_t eg_bit;
 	BaseType_t xHigherPriorityTaskWoken;
 	xHigherPriorityTaskWoken=pdFALSE;
-	
+
 	while(1){
 		eg_bit=xEventGroupWaitBits(eg_handle,START_L,pdTRUE,pdTRUE,portMAX_DELAY);
-		
+
 		for(i=0;i<LSIZE;i++){
 			digitalWrite(PULSE_L, HIGH);
 
 			start=micros();
 			while (digitalRead(Left_sensors[i])!=HIGH);
-			Left_times[i]=micros()-start;
+			if(threshold<micros()-start) Left_flags[i]=true;
+			//Left_times[i]=micros()-start;
 
 			digitalWrite(PULSE_L, LOW);  
 			delay(1);
 		}
-	
+
 		eg_bit=xEventGroupSetBits(eg_handle,END_L);
 	}
 }
@@ -129,8 +133,12 @@ void loop(){
 	char out=-1;
 	EventBits_t eg_bit;
 	unsigned long int prev=0;
-	int keymap[DICTSIZE]={};
-	char dictionary[DICTSIZE]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+	//int keymap[DICTSIZE]={1,2,3,4,0,9,5,6,7,8};
+	//char dictionary[DICTSIZE]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+	char keymap[3][10]={	{'q','w','e','r','t','y','u','i','o','p'},
+				{'a','s','d','f','g','h','j','k','l',';'},
+				{'z','x','c','v','b','n','m',',','.','/'}};
+
 
 	digitalWrite(LED_BUILTIN, HIGH);
 	delay(100);
@@ -138,21 +146,39 @@ void loop(){
 	delay(100);
 
 	while(1){
-		memset(Left_times,0,sizeof(Left_times));
-		memset(Right_times,0,sizeof(Right_times));
+		memset(Left_flags,false,sizeof(Left_flags));
+		memset(Right_flags,false,sizeof(Right_flags));
 
 		out=-1;
 
 		//1100 -> 0011
 		eg_bit=xEventGroupSync(eg_handle,START,ALL_SYNC,portMAX_DELAY);
-		
+
 		//Serial.printf("Left :%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4]);
 		//Serial.printf("Right:%ld,%ld,%ld,%ld,%ld\n",Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
-		Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
+		//Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
 
-		for(i=0;i<LSIZE;i++){
-			if(Right_times[i]>threshold) out=Right_keymap[i];
-			if(Left_times[i]>threshold) out=Left_keymap[i];
+		for(i=0;i<LSIZE-1;i++){
+			if(Left_flags[i]){
+				if(Left_flags[4]){
+					out=keymap[2][i];
+				}else if(Right_flags[4]){
+					out=keymap[0][i];
+				}else{
+					out=keymap[1][i];
+				}
+				break;
+			}
+			if(Right_flags[i]){
+				if(Left_flags[4]){
+					out=keymap[2][i+LSIZE+1];
+				}else if(Right_flags[4]){
+					out=keymap[0][i+LSIZE+1];
+				}else{
+					out=keymap[1][i+LSIZE+1];
+				}
+				break;
+			}
 		}
 
 		if(out!=-1 && (millis()-prev)>((out==buf)?200:100)){
