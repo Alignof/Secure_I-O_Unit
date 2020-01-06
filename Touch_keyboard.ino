@@ -5,8 +5,7 @@
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 
-#define RSIZE 5
-#define LSIZE 5
+#define SENSORS 7
 #define DICTSIZE 50
 #define LED_BUILTIN 2
 
@@ -20,32 +19,38 @@
 BleKeyboard bleKeyboard;
 EventGroupHandle_t eg_handle;
 
+//yellow wire
 const int PULSE_R=15;
 const int sensor1=4;
 const int sensor2=5;
 const int sensor3=18;
 const int sensor4=19;
 const int sensor5=21;
+const int ex_key1=34;
+const int ex_key2=22;
 
+//green wire
 const int PULSE_L=23;
 const int sensor6=13;
 const int sensor7=12;
 const int sensor8=14;
 const int sensor9=27;
 const int sensor10=26;
+const int ex_key3=25;
+const int ex_key4=33;
 
 const int threshold=50;
 
-bool Left_flags[LSIZE]={0};
-bool Right_flags[RSIZE]={0};
-long int Right_times[RSIZE]={0};
-long int Left_times[LSIZE]={0};
+bool Left_flags[SENSORS]={0};
+bool Right_flags[SENSORS]={0};
+long int Right_times[SENSORS]={0};
+long int Left_times[SENSORS]={0};
 
 void Right_hand(void *pvParameters){
 	int i;
 	long int t=0;
 	long int start;
-	const int Right_sensors[RSIZE]={sensor1,sensor2,sensor3,sensor4,sensor5};
+	const int Right_sensors[SENSORS]={sensor1,sensor2,sensor3,sensor4,sensor5,ex_key1,ex_key2};
 
 	EventBits_t eg_bit;
 	BaseType_t xHigherPriorityTaskWoken;
@@ -54,7 +59,7 @@ void Right_hand(void *pvParameters){
 	while(1){
 		eg_bit=xEventGroupWaitBits(eg_handle,START_R,pdTRUE,pdFALSE,portMAX_DELAY);
 
-		for(i=0;i<RSIZE;i++){
+		for(i=0;i<SENSORS;i++){
 			digitalWrite(PULSE_R, HIGH);
 
 			start=micros();
@@ -74,7 +79,7 @@ void Left_hand(void *pvParameters){
 	int i;
 	long int t=0;
 	long int start;
-	const int Left_sensors[LSIZE]={sensor6,sensor7,sensor8,sensor9,sensor10};
+	const int Left_sensors[SENSORS]={sensor6,sensor7,sensor8,sensor9,sensor10,ex_key3,ex_key4};
 	EventBits_t eg_bit;
 	BaseType_t xHigherPriorityTaskWoken;
 	xHigherPriorityTaskWoken=pdFALSE;
@@ -82,7 +87,7 @@ void Left_hand(void *pvParameters){
 	while(1){
 		eg_bit=xEventGroupWaitBits(eg_handle,START_L,pdTRUE,pdTRUE,portMAX_DELAY);
 
-		for(i=0;i<LSIZE;i++){
+		for(i=0;i<SENSORS;i++){
 			digitalWrite(PULSE_L, HIGH);
 
 			start=micros();
@@ -109,6 +114,8 @@ void setup() {
 	pinMode(sensor3,INPUT);
 	pinMode(sensor4,INPUT);
 	pinMode(sensor5,INPUT);
+	pinMode(ex_key1,INPUT);
+	pinMode(ex_key2,INPUT);
 
 	pinMode(PULSE_L,OUTPUT);
 	pinMode(sensor6,INPUT);
@@ -116,6 +123,8 @@ void setup() {
 	pinMode(sensor8,INPUT);
 	pinMode(sensor9,INPUT);
 	pinMode(sensor10,INPUT);
+	pinMode(ex_key3,INPUT);
+	pinMode(ex_key4,INPUT);
 
 	pinMode(LED_BUILTIN,OUTPUT);
 
@@ -133,8 +142,6 @@ void loop(){
 	char out=-1;
 	EventBits_t eg_bit;
 	unsigned long int prev=0;
-	//int keymap[DICTSIZE]={1,2,3,4,0,9,5,6,7,8};
-	//char dictionary[DICTSIZE]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 	char keymap[3][10]={	{'q','w','e','r','t','y','u','i','o','p'},
 				{'a','s','d','f','g','h','j','k','l',';'},
 				{'z','x','c','v','b','n','m',',','.','/'}};
@@ -156,9 +163,14 @@ void loop(){
 
 		//Serial.printf("Left :%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4]);
 		//Serial.printf("Right:%ld,%ld,%ld,%ld,%ld\n",Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
-		//Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
+		//Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Left_times[5],Left_times[6],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4],Right_times[5],Right_times[6]);
+		
+		if(Left_flags[5]){bleKeyboard.print(' ');delay(100);}
+		if(Left_flags[6]){bleKeyboard.write(KEY_TAB);delay(100);}
+		if(Right_flags[5]){bleKeyboard.write(KEY_BACKSPACE);delay(100);}
+		if(Right_flags[6]){bleKeyboard.write(KEY_RETURN);delay(100);}
 
-		for(i=0;i<LSIZE-1;i++){
+		for(i=0;i<SENSORS-3;i++){
 			if(Left_flags[i]){
 				if(Left_flags[4]){
 					out=keymap[2][i];
@@ -171,11 +183,11 @@ void loop(){
 			}
 			if(Right_flags[i]){
 				if(Left_flags[4]){
-					out=keymap[2][i+LSIZE+1];
+					out=keymap[2][i+SENSORS+1];
 				}else if(Right_flags[4]){
-					out=keymap[0][i+LSIZE+1];
+					out=keymap[0][i+SENSORS+1];
 				}else{
-					out=keymap[1][i+LSIZE+1];
+					out=keymap[1][i+SENSORS+1];
 				}
 				break;
 			}
@@ -188,4 +200,3 @@ void loop(){
 		}
 	}
 }
-
