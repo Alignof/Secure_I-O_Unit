@@ -1,4 +1,10 @@
-#include <iostream>
+/**
+ * @date		2019 05/17-
+ * @development code	Marionette
+ * @author		Takana Norimasa <j17423@kisarazu.kosen-ac.jp> <seigenkousya@outlook.jp>
+ * @brief		secure I/O Unit
+ */ 
+
 #include <BleKeyboard.h>
 #include "esp32-hal-log.h"
 #include "freertos/task.h"
