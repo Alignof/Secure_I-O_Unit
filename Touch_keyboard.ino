@@ -3,6 +3,8 @@
  * @development code	Marionette
  * @author		Takana Norimasa <j17423@kisarazu.kosen-ac.jp> <seigenkousya@outlook.jp>
  * @brief		secure I/O Unit
+ * @repository		https://github.com/Takana-Norimasa/I-O_Unit
+ * @license		https://www.mozilla.org/en-US/MPL/2.0/ Mozilla Public License 2.0
  */ 
 
 #include <BleKeyboard.h>
