@@ -27,24 +27,24 @@ BleKeyboard bleKeyboard;
 EventGroupHandle_t eg_handle;
 
 //yellow wire
-const int PULSE_R=15;
-const int sensor1=4;
+const int PULSE_R=34;
+const int sensor1=15;
 const int sensor2=5;
 const int sensor3=18;
 const int sensor4=19;
 const int sensor5=21;
-const int ex_key1=34;
-const int ex_key2=22;
+const int ex_key1=22;
+const int ex_key2=23;
 
 //green wire
-const int PULSE_L=23;
+const int PULSE_L=27;
 const int sensor6=13;
 const int sensor7=12;
 const int sensor8=14;
-const int sensor9=27;
-const int sensor10=26;
-const int ex_key3=25;
-const int ex_key4=33;
+const int sensor9=26;
+const int sensor10=25;
+const int ex_key3=33;
+const int ex_key4=32;
 
 const int threshold=50;
 
@@ -170,7 +170,7 @@ void loop(){
 
 		//Serial.printf("Left :%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4]);
 		//Serial.printf("Right:%ld,%ld,%ld,%ld,%ld\n",Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
-		//Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Left_times[5],Left_times[6],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4],Right_times[5],Right_times[6]);
+		Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Left_times[5],Left_times[6],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4],Right_times[5],Right_times[6]);
 		
 		if(Left_flags[5]){bleKeyboard.print(' ');delay(100);}
 		if(Left_flags[6]){bleKeyboard.write(KEY_TAB);delay(100);}
