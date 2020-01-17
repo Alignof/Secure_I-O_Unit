@@ -8,6 +8,7 @@
  */ 
 
 #include <BleKeyboard.h>
+//#include "driver/gpio.h"
 #include "esp32-hal-log.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
@@ -27,7 +28,7 @@ BleKeyboard bleKeyboard;
 EventGroupHandle_t eg_handle;
 
 //yellow wire
-const int PULSE_R=34;
+const int PULSE_R=4;
 const int sensor1=15;
 const int sensor2=5;
 const int sensor3=18;
@@ -72,7 +73,7 @@ void Right_hand(void *pvParameters){
 			start=micros();
 			while (digitalRead(Right_sensors[i])!=HIGH);
 			if(threshold<micros()-start) Right_flags[i]=true;
-			//Right_times[i]=micros()-start;
+			Right_times[i]=micros()-start;
 
 			digitalWrite(PULSE_R, LOW);  
 			delay(1);
@@ -100,7 +101,7 @@ void Left_hand(void *pvParameters){
 			start=micros();
 			while (digitalRead(Left_sensors[i])!=HIGH);
 			if(threshold<micros()-start) Left_flags[i]=true;
-			//Left_times[i]=micros()-start;
+			Left_times[i]=micros()-start;
 
 			digitalWrite(PULSE_L, LOW);  
 			delay(1);
@@ -207,3 +208,4 @@ void loop(){
 		}
 	}
 }
+
