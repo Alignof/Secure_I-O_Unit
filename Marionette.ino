@@ -1,6 +1,6 @@
 /**
  * @date		2019 05/17-
- * @development code	Marionette
+ * @development name	Marionette
  * @author		Takana Norimasa <j17423@kisarazu.kosen-ac.jp> <seigenkousya@outlook.jp>
  * @brief		secure I/O Unit
  * @repository		https://github.com/Takana-Norimasa/I-O_Unit
@@ -8,7 +8,6 @@
  */ 
 
 #include <BleKeyboard.h>
-//#include "driver/gpio.h"
 #include "esp32-hal-log.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
@@ -30,7 +29,7 @@ EventGroupHandle_t eg_handle;
 //yellow wire
 const int PULSE_R=4;
 const int sensor1=15;
-const int sensor2=5;
+const int sensor2=35;
 const int sensor3=18;
 const int sensor4=19;
 const int sensor5=21;
@@ -208,4 +207,3 @@ void loop(){
 		}
 	}
 }
-
