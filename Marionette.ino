@@ -28,11 +28,11 @@ EventGroupHandle_t eg_handle;
 
 //yellow wire
 const int PULSE_R=4;
-const int sensor1=18;
-const int sensor2=19;
-const int sensor3=21;
-const int sensor4=23;
-const int sensor5=22;
+const int sensor1=19;
+const int sensor2=21;
+const int sensor3=23;
+const int sensor4=22;
+const int sensor5=18;
 const int ex_key1=35;
 const int ex_key2=15;
 
@@ -170,7 +170,7 @@ void loop(){
 
 		//Serial.printf("Left :%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4]);
 		//Serial.printf("Right:%ld,%ld,%ld,%ld,%ld\n",Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4]);
-		Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Left_times[5],Left_times[6],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4],Right_times[5],Right_times[6]);
+		//Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Left_times[5],Left_times[6],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4],Right_times[5],Right_times[6]);
 		
 		if(Left_flags[5]){bleKeyboard.print(' ');delay(100);}
 		if(Left_flags[6]){bleKeyboard.write(KEY_TAB);delay(100);}
@@ -190,15 +190,18 @@ void loop(){
 			}
 			if(Right_flags[i]){
 				if(Left_flags[4]){
-					out=keymap[2][i+SENSORS-2];
+					out=keymap[2][i+SENSORS-1];
 				}else if(Right_flags[4]){
-					out=keymap[0][i+SENSORS-2];
+					out=keymap[0][i+SENSORS-1];
 				}else{
-					out=keymap[1][i+SENSORS-2];
+					out=keymap[1][i+SENSORS-1];
 				}
 				break;
 			}
 		}
+
+		if(out==255 && Left_flags[4]) out='g';
+		if(out==255 && Right_flags[4]) out='h';
 
 		if(out!=-1 && (millis()-prev)>((out==buf)?200:100)){
 			bleKeyboard.print(out);
