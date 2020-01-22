@@ -28,21 +28,21 @@ EventGroupHandle_t eg_handle;
 
 //yellow wire
 const int PULSE_R=4;
-const int sensor1=15;
-const int sensor2=35;
-const int sensor3=18;
-const int sensor4=19;
-const int sensor5=21;
-const int ex_key1=22;
-const int ex_key2=23;
+const int sensor1=18;
+const int sensor2=19;
+const int sensor3=21;
+const int sensor4=23;
+const int sensor5=22;
+const int ex_key1=35;
+const int ex_key2=15;
 
 //green wire
 const int PULSE_L=27;
 const int sensor6=13;
 const int sensor7=12;
 const int sensor8=14;
-const int sensor9=26;
-const int sensor10=25;
+const int sensor9=25;
+const int sensor10=26;
 const int ex_key3=33;
 const int ex_key4=32;
 
@@ -190,11 +190,11 @@ void loop(){
 			}
 			if(Right_flags[i]){
 				if(Left_flags[4]){
-					out=keymap[2][i+SENSORS+1];
+					out=keymap[2][i+SENSORS-2];
 				}else if(Right_flags[4]){
-					out=keymap[0][i+SENSORS+1];
+					out=keymap[0][i+SENSORS-2];
 				}else{
-					out=keymap[1][i+SENSORS+1];
+					out=keymap[1][i+SENSORS-2];
 				}
 				break;
 			}
