@@ -50,8 +50,6 @@ const int threshold=30;
 uint8_t check_ave=0;
 uint8_t Left_flags=0;
 uint8_t Right_flags=0;
-//bool Left_flags[SENSORS]={0};
-//bool Right_flags[SENSORS]={0};
 
 long int Right_times[SENSORS]={0};
 long int Left_times[SENSORS]={0};
@@ -74,7 +72,6 @@ void Right_hand(void *pvParameters){
 
 			start=micros();
 			while (digitalRead(Right_sensors[i])!=HIGH);
-			//if(threshold<micros()-start) Right_flags[i]=true;
 			if(threshold<micros()-start) Right_flags|=(1<<i);
 			Right_times[i]=micros()-start;
 
@@ -103,7 +100,6 @@ void Left_hand(void *pvParameters){
 
 			start=micros();
 			while (digitalRead(Left_sensors[i])!=HIGH);
-			//if(threshold<micros()-start) Left_flags[i]=true;
 			if(threshold<micros()-start) Left_flags|=(1<<i);
 			Left_times[i]=micros()-start;
 
@@ -149,8 +145,6 @@ void setup() {
 	check_ave=0;
 	Left_flags=0;
 	Right_flags=0;
-	//memset(Left_flags,false,sizeof(Left_flags));
-	//memset(Right_flags,false,sizeof(Right_flags));
 }
 
 
@@ -179,17 +173,6 @@ void loop(){
 		//Serial.printf("Right:%ld,%ld,%ld,%ld,%ld\n",Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4],Right_times[5],Right_times[6]);
 		Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Left_times[5],Left_times[6],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4],Right_times[5],Right_times[6]);
 		
-/*	
-		Serial.printf("check_ave[%d]: Left:",check_ave);
-		Serial.print(Left_flags,BIN);
-		Serial.print(" Right:");
-		Serial.println(Right_flags,BIN);
-
-		if(Left_flags[5]){bleKeyboard.print(' ');delay(100);}
-		if(Left_flags[6]){bleKeyboard.write(KEY_TAB);delay(100);}
-		if(Right_flags[5]){bleKeyboard.write(KEY_BACKSPACE);delay(100);}
-		if(Right_flags[6]){bleKeyboard.write(KEY_RETURN);delay(100);}
-*/
 		if(Left_flags & (1<<5)){bleKeyboard.print(' ');delay(100);}
 		if(Left_flags & (1<<6)){bleKeyboard.write(KEY_TAB);delay(100);}
 		if(Right_flags & (1<<5)){bleKeyboard.write(KEY_BACKSPACE);delay(100);}
@@ -229,9 +212,6 @@ void loop(){
 			buf=out;
 
 			check_ave=0;
-			//Serial.printf("--------------%c-------------\n",out);
-			//memset(Left_flags,false,sizeof(Left_flags));
-			//memset(Right_flags,false,sizeof(Right_flags));
 			Left_flags=0;
 			Right_flags=0;
 
