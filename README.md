@@ -20,10 +20,16 @@ I/O Unitの利点は既存の入出力装置を処理装置から独立させる
 
 
 # 作り方
-さぁここまでくればあなたもこのデバイスが欲しくなったでしょう！
+さぁここまでくればあなたもこのデバイスが欲しくなったでしょう！  
 [wiki](https://github.com/Takana-Norimasa/Secure_I-O_Unit/wiki)に作り方やカスタマイズの例を挙げています！  
 このデモを見て自分も作ってみたい！と思った方はぜひwikiを見て挑戦して楽しんでください！   
-wiki:[https://github.com/Takana-Norimasa/Secure_I-O_Unit/wiki](https://github.com/Takana-Norimasa/Secure_I-O_Unit/wiki)  
+wiki:[https://github.com/Takana-Norimasa/Secure_I-O_Unit/wiki](https://github.com/Takana-Norimasa/Secure_I-O_Unit/wiki) 
+
+# 作者
+高名　典雅(Takana Norimasa)  
+Mail		: j17423@kisarazu.kosen-ac.jp(official) or seigenkousya@outlook.jp   
+github	: [Takana-Norimasa](https://github.com/Takana-Norimasa)  
+Twitter	: [@seigenkousya_](https://twitter.com/Seigenkousya_)  
 
 # 経緯
 最後になってしまいましたが何故僕がこの装置を作ってプロジェクトを立ち上げたのかを書いておきます。  
