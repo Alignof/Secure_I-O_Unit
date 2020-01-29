@@ -28,16 +28,16 @@ wiki:[https://github.com/Takana-Norimasa/Secure_I-O_Unit/wiki](https://github.co
 # このプロジェクトへの参加方法
 このプロジェクトの基本方針は100人が一つのハードウェアについて開発を進めることより100人が各自100個の自作のデバイスを持ち寄り見せあうことで議論を進めることに重きを置きたいと考えています。  
 理由としては回路やプログラム以外にも工作やアイデアの要素が強く、それらを共有して議論するにはできたものを見せあうことが一番だからです。
-なので自作のI/O Unitを作ってTwitter等で#Secure_i/O_Unit のハッシュタグをつけて呟くだけでこのプロジェクトに大きく貢献していると言えます。  
+なので自作のI/O Unitを作ってTwitter等で#Secure_i-O_Unit のハッシュタグをつけて呟くだけでこのプロジェクトに大きく貢献していると言えます。  
 もちろんソフトウェアや回路の面で改善の余地がある部分はこのリポジトリで議論しあい改善していきましょう。  
 wikiについても誰でも編集できるように環境を整える予定です。  
-
 
 # 作者
 高名 典雅(Takana Norimasa)  
 Mail    : j17423@kisarazu.kosen-ac.jp(official) or seigenkousya@outlook.jp   
 github	: [Takana-Norimasa](https://github.com/Takana-Norimasa)  
 Twitter	: [@seigenkousya_](https://twitter.com/Seigenkousya_)  
+Qiita   : [@Seigenkousya](https://qiita.com/Seigenkousya)
 
 # 経緯
 最後になってしまいましたが何故僕がこの装置を作ってプロジェクトを立ち上げたのかを書いておきます。  
