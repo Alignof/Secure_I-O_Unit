@@ -2,8 +2,7 @@
 このプロジェクトは既存の入出力装置のセキュリティ上の問題点を克服したセキュアな入出力装置の開発を目指すと共に新しい処理装置と入出力装置の関係を模索するオープンソースハードウェアとそのコミュニティです。  
   
 /\*何かいい感じのgif\*/  
-![I-O_Unit_overview.jpg](https://photos.app.goo.gl/DNmufN5CSMhKrTQm8)  
-![marionette_demo.gif](https://github.com/Takana-Norimasa/Secure_I-O_Unit_Project/blob/master/images/marrionette_demo.gif) 
+![I-O_Unit_overview.jpg]()  
 
 ここでは、僕の考えた入出力それぞれの装置をまとめた新しいデバイスを紹介すると共に、作り方を公開し様々な人に実際に個人の好みにあった入力方式やパターンを持ったオリジナルの装置を作っていただこうと考えています。  
 
@@ -20,7 +19,7 @@ I/O Unitの利点は既存の入出力装置を処理装置から独立させる
 - 補助装置
 
 今回制作したデバイスでは以下のように装着します。
-![I-O_Unit_layout](https://photos.app.goo.gl/DNmufN5CSMhKrTQm8)
+![I-O_Unit_layout]()
 
 # 作り方
 さぁここまでくればあなたもこのデバイスが欲しくなったでしょう！  
