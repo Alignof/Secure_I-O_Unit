@@ -8,6 +8,7 @@
  */ 
 
 #include <BleKeyboard.h>
+#include <bitset>
 #include "esp32-hal-log.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
