@@ -18,7 +18,6 @@ I/O Unitの利点は既存の入出力装置を処理装置から独立させる
 - 補助装置
 
 今回制作したデバイスでは以下のように装着します。
-![I-O_Unit_layout](https://github.com/Takana-Norimasa/Secure_I-O_Unit/blob/master/images/DSC_0526.JPG)
 
 # 作り方
 さぁここまでくればあなたもこのデバイスが欲しくなったでしょう！  
