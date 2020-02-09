@@ -49,8 +49,8 @@ const int ex_key4=32;
 
 const int threshold=30;
 uint8_t check_ave=0;
-uint8_t Left_flags=0;
-uint8_t Right_flags=0;
+bitset<8> Left_flags(0);
+bitset<8> Right_flags(0);
 
 long int Right_times[SENSORS]={0};
 long int Left_times[SENSORS]={0};
@@ -73,7 +73,7 @@ void Right_hand(void *pvParameters){
 
 			start=micros();
 			while (digitalRead(Right_sensors[i])!=HIGH);
-			if(threshold<micros()-start) Right_flags|=(1<<i);
+			if(threshold<micros()-start) Right_flags.set(i);
 			Right_times[i]=micros()-start;
 
 			digitalWrite(PULSE_R, LOW);  
@@ -101,7 +101,7 @@ void Left_hand(void *pvParameters){
 
 			start=micros();
 			while (digitalRead(Left_sensors[i])!=HIGH);
-			if(threshold<micros()-start) Left_flags|=(1<<i);
+			if(threshold<micros()-start) Left_flags.set(i);
 			Left_times[i]=micros()-start;
 
 			digitalWrite(PULSE_L, LOW);  
@@ -168,34 +168,34 @@ void loop(){
 
 		//1100 -> 0011
 		eg_bit=xEventGroupSync(eg_handle,START,ALL_SYNC,portMAX_DELAY);
-		if(Left_flags || Right_flags) check_ave++;
+		if(Left_flags.any() || Right_flags.any()) check_ave++;
 
 		//Serial.printf("Left :%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4]);
 		//Serial.printf("Right:%ld,%ld,%ld,%ld,%ld\n",Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4],Right_times[5],Right_times[6]);
 		Serial.printf("%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld\n",Left_times[0],Left_times[1],Left_times[2],Left_times[3],Left_times[4],Left_times[5],Left_times[6],Right_times[0],Right_times[1],Right_times[2],Right_times[3],Right_times[4],Right_times[5],Right_times[6]);
 		
-		if(Left_flags & (1<<5)){bleKeyboard.print(' ');delay(100);}
-		if(Left_flags & (1<<6)){bleKeyboard.write(KEY_TAB);delay(100);}
-		if(Right_flags & (1<<5)){bleKeyboard.write(KEY_BACKSPACE);delay(100);}
-		if(Right_flags & (1<<6)){bleKeyboard.write(KEY_RETURN);delay(100);}
+		if(Left_flags[5]){bleKeyboard.print(' ');delay(100);}
+		if(Left_flags[6]){bleKeyboard.write(KEY_TAB);delay(100);}
+		if(Right_flags[5]){bleKeyboard.write(KEY_BACKSPACE);delay(100);}
+		if(Right_flags[6]){bleKeyboard.write(KEY_RETURN);delay(100);}
 
 
 		if(check_ave>=10){
 			for(i=0;i<SENSORS-3;i++){
-				if(Left_flags & (1<<i)){
-					if(Left_flags & (1<<4)){
+				if(Left_flags[i]){
+					if(Left_flags[4]){
 						out=keymap[2][i];
-					}else if(Right_flags & (1<<4)){
+					}else if(Right_flags[4]){
 						out=keymap[0][i];
 					}else{
 						out=keymap[1][i];
 					}
 					break;
 				}
-				if(Right_flags & (1<<i)){
-					if(Left_flags & (1<<4)){
+				if(Right_flags[i]){
+					if(Left_flags[4]){
 						out=keymap[2][i+SENSORS-1];
-					}else if(Right_flags & (1<<4)){
+					}else if(Right_flags[4]){
 						out=keymap[0][i+SENSORS-1];
 					}else{
 						out=keymap[1][i+SENSORS-1];
@@ -203,8 +203,8 @@ void loop(){
 					break;
 				}
 			}
-			if(out==0 && (Left_flags & (1<<4))) out='g';
-			if(out==0 && (Right_flags & (1<<4))) out='h';
+			if(out==0 && Left_flags[4]) out='g';
+			if(out==0 && Right_flags[4]) out='h';
 		}
 
 		if(out!=0){
@@ -215,7 +215,6 @@ void loop(){
 			check_ave=0;
 			Left_flags=0;
 			Right_flags=0;
-
 		}
 	}
 }
