@@ -49,8 +49,8 @@ const int ex_key4=32;
 
 const int threshold=30;
 uint8_t check_ave=0;
-bitset<8> Left_flags(0);
-bitset<8> Right_flags(0);
+std::bitset<8> Left_flags(0);
+std::bitset<8> Right_flags(0);
 
 long int Right_times[SENSORS]={0};
 long int Left_times[SENSORS]={0};
