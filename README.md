@@ -36,7 +36,7 @@ wikiについても誰でも編集できるように環境を整える予定で�
 高名 典雅(Takana Norimasa)  
 Mail    : j17423@kisarazu.kosen-ac.jp(official) or seigenkousya@outlook.jp   
 github	: [Takana-Norimasa](https://github.com/Takana-Norimasa)  
-Twitter	: [@Seigenkousya_](https://twitter.com/Seigenkousya_)  
+Twitter	: [@Seigenkousya\_](https://twitter.com/Seigenkousya_)  
 Qiita   : [@Seigenkousya](https://qiita.com/Seigenkousya)
 
 # 経緯
